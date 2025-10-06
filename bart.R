@@ -32,8 +32,9 @@ my_recipe <- recipe(count ~., data=train_ud) %>%
                               labels=c("Clear", "Mist", "Light Snow"))) %>%
   step_mutate(season = factor(season, levels=c("1","2","3","4"), 
                               labels=c("Spring","Summer","Fall","Winter"))) %>%
-  #step_time(datetime, features="decimal_day")%>%
+  step_date(datetime, features = c("month", "year", "dow")) %>%
   step_time(datetime, features="hour") %>%
+  step_rm(datetime) %>%
   step_dummy(all_nominal_predictors()) %>%
   step_normalize(all_numeric_predictors())
 
